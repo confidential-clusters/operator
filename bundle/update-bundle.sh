@@ -10,7 +10,7 @@ set -euo pipefail
 # IMPORTANT: Must use @sha256: format, NOT tags - Konflux only updates digest references
 export OPERATOR_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/cocl-operator@sha256:b4f0e4815e6404604dca66bcbad588fb851f0a60ad8839f86a7b3c6e37b219fc"
 export COMPUTE_PCRS_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/compute-pcrs@sha256:fc48963848eb9c02665ffa20bfc56f62e9914f127fc3a1ce5b46a31afaec0ec3"
-export REG_SERVER_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/registration-server@sha256:0a5350f77b00299dae54d48ae0b132fa05dda417f50ef88b3c71e1ae82853f14"
+export REG_SERVER_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/registration-server@sha256:10e9d6275b7e4bdd9bbaa1be63a684ea01344124b7fb79636c1773d1416e9cd3"
 export ATTESTATION_KEY_REGISTER_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/attestation-key-register@sha256:849b6ec3b4fe848158267b268b69348d9fa9f66cd74f863ec3749b8cea9fb398"
 export TRUSTEE_IMAGE="quay.io/trusted-execution-clusters/key-broker-service@sha256:1cf0ba784437f83e7f459e91f17615c9bf5c8068a0212b72fd9fc1babcbf6764"
 
