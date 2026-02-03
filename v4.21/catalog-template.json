@@ -19,7 +19,7 @@
         },
         {
             "schema": "olm.bundle",
-            "image": "quay.io/redhat-user-workloads/cocl-operator-tenant/cocl-operator-bundle@sha256:c6dc7b2938c8998d339e14b58317d90ee74f3d0963cf570a8ff810a532b6a438"
+            "image": "quay.io/redhat-user-workloads/cocl-operator-tenant/cocl-operator-bundle@sha256:243e05834e9b0ac9f775742312c14598092df6f30cca08a3df0ba1d4740d47ce"
         }
     ]
 }
