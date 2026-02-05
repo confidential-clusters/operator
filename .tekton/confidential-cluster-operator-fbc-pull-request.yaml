@@ -9,9 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
-      == "main" && (".tekton/confidential-cluster-operator-fbc-push.yaml".pathChanged() ||
-      ".tekton/confidential-cluster-operator-fbc-pull-request.yaml".pathChanged() || "v4.21/***".pathChanged()
-      || "operator/bundle/***".pathChanged())
+      == "main"
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: confidential-cluster-operator-fbc
@@ -32,10 +30,8 @@ spec:
   - name: build-platforms
     value:
     - linux/x86_64
-  - name: path-context
-    value: v4.21
   - name: dockerfile
-    value: Containerfile.catalog
+    value: v4.21/Containerfile.catalog
   pipelineSpec:
     description: |
       This pipeline is ideal for building and verifying [file-based catalogs](https://konflux-ci.dev/docs/end-to-end/building-olm/#building-the-file-based-catalog).
@@ -180,14 +176,9 @@ spec:
       - name: ociArtifactExpiresAfter
         value: $(params.image-expires-after)
       - name: OPM_ARGS
-        value:
-        - alpha
-        - render-template
-        - basic
-        - "v4.21/catalog-template.json"
-        - "--migrate-level=bundle-object-to-csv-metadata"
+        value: []
       - name: OPM_OUTPUT_PATH
-        value: "v4.21/catalog/confidential-cluster-operator/catalog.json"
+        value: ""
       - name: IDMS_PATH
         value: ""
       runAfter:
@@ -272,7 +263,7 @@ spec:
         - name: name
           value: buildah-remote-oci-ta
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote-oci-ta:0.8@sha256:da99fce12bf72da86f6a86a5370d826c16ea8db001d27181dcaf087af9ab60cb
+          value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote-oci-ta:0.8@sha256:4ba24114693920806b35f398fe766c167c18c77fab5f0648a0e1c0de702e4a47
         - name: kind
           value: task
         resolver: bundles
@@ -301,7 +292,7 @@ spec:
         - name: name
           value: build-image-index
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-build-image-index:0.2@sha256:05d3d8a5ded44c51b074a56a408ddf5d65c56b4c15e110abb1a99e3aff269d49
+          value: quay.io/konflux-ci/tekton-catalog/task-build-image-index:0.2@sha256:8c422a5380a3d877257003dee153190322af84fe6f4f25e9eee7d8bf61a62577
         - name: kind
           value: task
         resolver: bundles
@@ -323,7 +314,7 @@ spec:
         - name: name
           value: deprecated-image-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-deprecated-image-check:0.5@sha256:e3a55ccdf1091b4a35507f9ee2d1918d8e89a5f96babcb5486b491226da03d6f
+          value: quay.io/konflux-ci/tekton-catalog/task-deprecated-image-check:0.5@sha256:808fe09bb5b8503de569de097ae5dd619a7488110f79e8e215e69862ee3fce6d
         - name: kind
           value: task
         resolver: bundles
