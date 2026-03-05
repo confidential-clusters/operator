@@ -8,7 +8,7 @@ set -euo pipefail
 # Hardcoded image pullspecs with SHA256 digests - these will be automatically updated by Konflux component nudges
 # When component builds complete, Konflux will send PRs to update these digests
 # IMPORTANT: Must use @sha256: format, NOT tags - Konflux only updates digest references
-export OPERATOR_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/confidential-cluster-operator@sha256:35a44986c1991eb0030de9575c9f4d77276bc71f5408a9af8e4af9af77a155bd"
+export OPERATOR_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/confidential-cluster-operator@sha256:345c618885c0635cbf9b39420e3ea92669a9268d4a21c6db4bda54358552bb98"
 export COMPUTE_PCRS_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/compute-pcrs@sha256:dac12b9fe8bc92bbc79290cfaf311436e02ba7024692022d921a000ad5586797"
 export REG_SERVER_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/registration-server@sha256:3ca734f4dd86fa0d2a1c9da110e545dc7f4b1c0771434a14b2386310b9c257eb"
 export ATTESTATION_KEY_REGISTER_IMAGE="quay.io/redhat-user-workloads/cocl-operator-tenant/attestation-key-register@sha256:88678999eb4c49dccda13325f1caed42af9f8c90235392c5547a8b759111443b"
