@@ -19,7 +19,7 @@
         },
         {
             "schema": "olm.bundle",
-            "image": "registry.stage.redhat.io/confidential-clusters-beta/confidential-cluster-operator-bundle@sha256:10de90e517fcb94fd578b2e386ed3887e9d9c3f0c554d0979413606ef9ae7bcc"
+            "image": "registry.stage.redhat.io/confidential-clusters-beta/confidential-cluster-operator-bundle@sha256:e25efdc1a5281ce19a1e3c5d2cdd7548c81fca05e60797033d74c149461ff576"
         }
     ]
 }
