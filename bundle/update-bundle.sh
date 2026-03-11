@@ -9,7 +9,7 @@ set -euo pipefail
 # When component builds complete, Konflux will send PRs to update these digests
 # IMPORTANT: Must use @sha256: format, NOT tags - Konflux only updates digest references
 export OPERATOR_IMAGE="registry.stage.redhat.io/confidential-clusters-beta/confidential-cluster-rhel9-operator@sha256:345c618885c0635cbf9b39420e3ea92669a9268d4a21c6db4bda54358552bb98"
-export COMPUTE_PCRS_IMAGE="registry.stage.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:93d4c06518e570428b98ebddd901598598bec01ef7cc42350a1fc8ce73c4c0f6"
+export COMPUTE_PCRS_IMAGE="registry.stage.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:a9deee28a5c9f048d8a69b0132b2767fbdbb8fcfa30b54070f8207b5e4cecec6"
 export REG_SERVER_IMAGE="registry.stage.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:274ecbf33ac0738ee139f9d972971e6b082596f857ebc062fa9d4c64b7f58f77"
 export ATTESTATION_KEY_REGISTER_IMAGE="registry.stage.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:a26e959b09492e8eaac08f749f35855c57e6b8ce241f80f1eb6ffd5efb5451db"
 export TRUSTEE_IMAGE="quay.io/trusted-execution-clusters/key-broker-service@sha256:1cf0ba784437f83e7f459e91f17615c9bf5c8068a0212b72fd9fc1babcbf6764"
