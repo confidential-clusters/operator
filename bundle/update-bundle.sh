@@ -12,7 +12,7 @@ export OPERATOR_IMAGE="registry.redhat.io/confidential-clusters-beta/confidentia
 export COMPUTE_PCRS_IMAGE="registry.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:44b99ca527f4f226c4d0f3ea8cfa80a597108d85c9c767dfb4f817cf3a8499fa"
 export REG_SERVER_IMAGE="registry.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:025f09866674ef67256c5c4a349f1444b0e9d74a289e86a86730d08170386cae"
 export ATTESTATION_KEY_REGISTER_IMAGE="registry.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:cabd50a2ba5ec3c2556222ca3eaab3c637c193ff002db52790aa68c82c3a690b"
-export TRUSTEE_IMAGE="quay.io/trusted-execution-clusters/key-broker-service@sha256:1cf0ba784437f83e7f459e91f17615c9bf5c8068a0212b72fd9fc1babcbf6764"
+export TRUSTEE_IMAGE="registry.redhat.io/build-of-trustee/trustee-rhel9:1.1"
 
 # These are passed in from the Containerfile build args
 : "${TAG:?TAG must be set}"
