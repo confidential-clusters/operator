@@ -11,7 +11,7 @@ set -euo pipefail
 
 export OPERATOR_IMAGE="registry.redhat.io/confidential-clusters-beta/confidential-cluster-rhel9-operator@sha256:d5f2483202c8acccc4f86f97ebc1089dc8499b95611eb8b4c283e4cca448f11b"
 export COMPUTE_PCRS_IMAGE="registry.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:7056c8887b7cb6fbfdaef0394a5cd64e23a7ee7afa36ba1038455de4de96fd9a"
-export REG_SERVER_IMAGE="registry.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:81b5455da8609ad3a34160ae864db64f12fa899e244001bf9bd6a4591a228e33"
+export REG_SERVER_IMAGE="registry.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:54b94f7c40b8b467a6382b3db75e14ce8b2b5c74508148ab1d9326bfcf02f875"
 export ATTESTATION_KEY_REGISTER_IMAGE="registry.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:cd7ff8aa957cede1839ff2a405158d1b5f06bb5f09ec368920af3994dccca713"
 export TRUSTEE_IMAGE="registry.redhat.io/build-of-trustee/trustee-rhel9@sha256:badc4d357d15c495d695fd84736ebdffdad4b9fb3ec89c40c9b47a1c2b3a9d41"
 
