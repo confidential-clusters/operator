@@ -10,7 +10,7 @@ set -euo pipefail
 # IMPORTANT: Must use @sha256: format, NOT tags - Konflux only updates digest references
 
 export OPERATOR_IMAGE="registry.redhat.io/confidential-clusters-beta/confidential-cluster-rhel9-operator@sha256:dc8e8d6f9d47a75f486fcc6d304d53c223752ebeb0f16f8111e8762c8037e0a4"
-export COMPUTE_PCRS_IMAGE="registry.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:8bb05c7ee20ba407c29687b1d62fef57769a2cb5c816ae0b8c9cd642ed405087"
+export COMPUTE_PCRS_IMAGE="registry.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:7056c8887b7cb6fbfdaef0394a5cd64e23a7ee7afa36ba1038455de4de96fd9a"
 export REG_SERVER_IMAGE="registry.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:81b5455da8609ad3a34160ae864db64f12fa899e244001bf9bd6a4591a228e33"
 export ATTESTATION_KEY_REGISTER_IMAGE="registry.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:cd7ff8aa957cede1839ff2a405158d1b5f06bb5f09ec368920af3994dccca713"
 export TRUSTEE_IMAGE="registry.redhat.io/build-of-trustee/trustee-rhel9@sha256:badc4d357d15c495d695fd84736ebdffdad4b9fb3ec89c40c9b47a1c2b3a9d41"
