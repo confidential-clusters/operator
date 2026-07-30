@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: Jakob Naucke <jnaucke@redhat.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[workspace]
+members = ["lib"]
+
+[workspace.package]
+version = "0.2.1"
+edition = "2024"
+rust-version = "1.88"
+
+[workspace.dependencies]
+k8s-openapi = "0.28.0"
+kube = "4.0.0"
+serde = "1.0.229"
+serde_json = "1.0.151"
+
+[package]
+name = "confidential-cluster-operator-tests"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+anyhow = "1.0.104"
+async-trait = "0.1"
+confidential-cluster-operator-test-lib = { path = "lib" }
+ignition-config = "0.6.1"
+k8s-openapi.workspace = true
+kube.workspace = true
+serde_json.workspace = true
+tokio = "1.53.1"
+trusted-cluster-operator-lib = { path = "../operator/lib" }
+trusted-cluster-operator-test-utils = { path = "../operator/test_utils", features = ["virtualization"] }
+
+[[test]]
+name = "scale"
+path = "scale.rs"
