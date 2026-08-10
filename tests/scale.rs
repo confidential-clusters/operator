@@ -252,7 +252,7 @@ fn adapt_machineset(
         name: Some(machine_name.to_string()),
         ..Default::default()
     };
-    mset.spec.replicas = Some(1);
+    mset.spec.replicas = Some(0);
 
     // TODO once test works, check if these are all necessary
     let mset_labels = mset.metadata.labels.get_or_insert_default();
@@ -345,7 +345,7 @@ impl ScaleContext {
         let ctx = format!("MachineSet {machine_name} did not have desired replicas",);
         timeout(duration, replicas_ready).await.context(ctx)??;
         self.test_ctx.info(format!(
-            "MachineSet {machine_name} achieved desired amount replicas ({replicas})"
+            "MachineSet {machine_name} achieved desired number of replicas ({replicas})"
         ));
 
         Ok(())
@@ -383,8 +383,15 @@ named_test!(
     async fn test_scale() -> anyhow::Result<()> {
         let test_ctx = setup!().await?;
         let scale_ctx = ScaleContext::new(test_ctx.clone()).await?;
-        scale_ctx.has_replicas(1, scaled_duration(300)).await?;
         let machine_name = &scale_ctx.machine_name;
+
+        let machinesets: Api<MachineSet> = Api::namespaced(test_ctx.client().clone(), MAPI_NS);
+        let mut mset = machinesets.get(machine_name).await?;
+        mset.spec.replicas = Some(1);
+        test_ctx.info("Updating MachineSet replicas to 1");
+        let rp = Default::default();
+        machinesets.replace(machine_name, &rp, &mset).await?;
+        scale_ctx.has_replicas(1, scaled_duration(300)).await?;
 
         let label = format!("{NODE_ROLE_PREFIX}{machine_name}");
         let nodes: Api<Node> = Api::all(test_ctx.client().clone());
@@ -435,9 +442,15 @@ named_test!(
 
         let machinesets: Api<MachineSet> = Api::namespaced(test_ctx.client().clone(), MAPI_NS);
         let mut mset = machinesets.get(&scale_ctx.machine_name).await?;
+        let rp = Default::default();
+
+        mset.spec.replicas = Some(1);
+        test_ctx.info("Updating MachineSet replicas to 1");
+        machinesets.replace(machine_name, &rp, &mset).await?;
+        scale_ctx.has_replicas(0, scaled_duration(60)).await?;
+
         mset.spec.replicas = Some(0);
         test_ctx.info("Updating MachineSet replicas to 0");
-        let rp = Default::default();
         machinesets.replace(machine_name, &rp, &mset).await?;
         scale_ctx.has_replicas(0, scaled_duration(60)).await?;
 
