@@ -30,6 +30,7 @@ spec:
   - name: build-args
     value:
     - build_type=release
+    - build_target=attestation-key-register
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
