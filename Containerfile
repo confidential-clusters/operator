@@ -9,7 +9,7 @@ ARG build_type=release
 ARG build_target=operator
 
 # Unified builder stage, compiles all binaries in a single cargo invocation.
-FROM quay.io/redhat-user-workloads/cocl-operator-tenant/buildroot@sha256:34806c0eb874b00bcd0fc90241746404e051070b278ac0351e5c8873ffda8b39
+FROM quay.io/redhat-user-workloads/cocl-operator-tenant/buildroot@sha256:34806c0eb874b00bcd0fc90241746404e051070b278ac0351e5c8873ffda8b39 AS builder
 LABEL project=trusted-cluster-operator
 ARG build_type
 WORKDIR /build
