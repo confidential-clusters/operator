@@ -6,25 +6,19 @@
 # Konflux builds as quay.io/redhat-user-workloads/cocl-operator-tenant/buildroot:latest
 # for Red Hat product certification requirements
 
-# Start with UBI9 Go Toolset (provides Go 1.25.3)
+# Start with UBI9 Go Toolset (provides Go 1.26+)
 FROM registry.access.redhat.com/ubi9/go-toolset:latest
 
 # Switch to root for package installation
 USER 0
 
 # Install build dependencies and Rust toolset
-# rust-toolset provides Rust 1.84+ (via RHEL repos)
+# rust-toolset provides Rust 1.92+ (via RHEL repos)
 RUN dnf install -y \
     rust-toolset \
-    cargo \
     rustfmt \
-    gcc \
-    gcc-c++ \
-    make \
-    git \
     jq \
-    openssl-devel \
-    pkgconfig \
+    perl-core \
     && dnf clean all
 
 # Verify installations
