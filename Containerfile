@@ -24,6 +24,12 @@ RUN /detector.sh ./Containerfile /drift-cache/Containerfile
 WORKDIR /build
 COPY operator/Makefile operator/Cargo.toml operator/Cargo.lock operator/go.mod operator/go.sum ./
 
+# cachi2/hermeto injects the vendored-sources cargo config at operator/.cargo during the
+# prefetch step. The build flattens operator/ into /build, so copy the config here too;
+# without it, offline (hermetic) `cargo build`/`cargo install` can't resolve the vendored
+# crates (incl. the git deps) and the build fails.
+COPY operator/.cargo .cargo
+
 COPY operator/api api
 COPY operator/lib lib
 
@@ -41,6 +47,16 @@ RUN sed -i 's/members = .*/members = ["lib", "operator", "compute-pcrs", "regist
     sed -i '/\[dev-dependencies\]/,$d' operator/Cargo.toml && \
     sed -i '/\[dev-dependencies\]/,$d' register-server/Cargo.toml && \
     sed -i '/trusted-cluster-operator-test-utils/d' lib/Cargo.toml
+
+# controller-gen and kopium are prefetched via cachi2 'generic' (artifacts.lock.yaml) and
+# mounted at /cachi2/output/deps/generic. Place them at $(LOCALBIN)=/build/bin with the
+# exact `<tool>-<version>` names `make crds-rs` expects, so its existence guards skip the
+# network curl / go-install / cargo-install (which don't work under hermetic).
+RUN mkdir -p bin && \
+    cp /cachi2/output/deps/generic/controller-gen-linux-amd64 bin/controller-gen-v0.20.1 && \
+    tar -xJf /cachi2/output/deps/generic/kopium-x86_64-unknown-linux-musl.tar.xz -C bin --strip-components=1 && \
+    mv bin/kopium bin/kopium-0.23.0 && \
+    chmod +x bin/controller-gen-v0.20.1 bin/kopium-0.23.0
 
 RUN make crds-rs
 
@@ -128,10 +144,10 @@ ENTRYPOINT ["/usr/bin/register-server"]
 
 
 FROM builder AS compute-pcrs-data
-# Pin reference-values to specific commit for reproducible builds
-ARG REFERENCE_VALUES_COMMIT=e296603ca106908258ac59326b001b602ed0f037
-RUN git clone https://github.com/trusted-execution-clusters/reference-values && \
-    cd reference-values && git checkout ${REFERENCE_VALUES_COMMIT} && cd ..
+# reference-values is vendored as a git submodule (pinned commit), fetched by the Konflux
+# git-clone task and copied from the build context. This replaces an in-build `git clone`,
+# which cannot run under hermetic (network-isolated) builds.
+COPY reference-values reference-values
 RUN mkdir -p /output/reference-values && \
     mv /build/reference-values/efivars /output/reference-values/ && \
     mv /build/reference-values/mok-variables /output/reference-values/

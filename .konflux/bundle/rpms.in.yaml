@@ -1,0 +1,12 @@
+# Input for rpm-lockfile-prototype -> .konflux/bundle/rpms.lock.yaml, consumed by cachi2
+# rpm prefetch for Containerfile.bundle (base: ubi9/ubi). Regenerate:
+#   (in a ubi9/ubi container) rpm-lockfile-prototype --local-system rpms.in.yaml
+contentOrigin:
+  repofiles:
+    - /etc/yum.repos.d/ubi.repo
+arches:
+  - x86_64
+packages:
+  - git
+  - make
+  - golang
