@@ -9,7 +9,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/compute-pcrs-push.yaml".pathChanged() || ".tekton/compute-pcrs-pull-request.yaml".pathChanged() || "Containerfile.compute-pcrs".pathChanged() || "operator".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/compute-pcrs-push.yaml".pathChanged() || ".tekton/compute-pcrs-pull-request.yaml".pathChanged() || "Containerfile".pathChanged() || "operator".pathChanged())
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: confidential-cluster-operator
@@ -26,10 +26,15 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/cocl-operator-tenant/compute-pcrs:{{revision}}
   - name: dockerfile
-    value: Containerfile.compute-pcrs
+    value: Containerfile
   - name: build-args
     value:
     - build_type=release
+    - build_target=compute-pcrs
+  - name: hermetic
+    value: "true"
+  - name: prefetch-input
+    value: '[{"type": "gomod", "path": "operator"}, {"type": "cargo", "path": "operator"}, {"type": "generic"}]'
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
@@ -203,6 +208,8 @@ spec:
         value: $(params.output-image)
       - name: DOCKERFILE
         value: $(params.dockerfile)
+      - name: TARGET_STAGE
+        value: compute-pcrs
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC
@@ -421,6 +428,8 @@ spec:
         value: $(params.output-image)
       - name: DOCKERFILE
         value: $(params.dockerfile)
+      - name: TARGET_STAGE
+        value: compute-pcrs
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC

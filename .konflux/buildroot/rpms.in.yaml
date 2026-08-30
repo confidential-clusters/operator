@@ -1,0 +1,21 @@
+# Input for rpm-lockfile-prototype -> .konflux/buildroot/rpms.lock.yaml, consumed by
+# cachi2 rpm prefetch for Containerfile.buildroot (base: ubi9/go-toolset).
+# Resolve against the go-toolset base so rust-toolset & friends are found:
+#   rpm-lockfile-prototype --image registry.access.redhat.com/ubi9/go-toolset:latest \
+#     --outfile .konflux/buildroot/rpms.lock.yaml .konflux/buildroot/rpms.in.yaml
+contentOrigin:
+  repofiles:
+    - /etc/yum.repos.d/ubi.repo
+arches:
+  - x86_64
+packages:
+  - rust-toolset
+  - cargo
+  - rustfmt
+  - gcc
+  - gcc-c++
+  - make
+  - git
+  - jq
+  - openssl-devel
+  - pkgconfig

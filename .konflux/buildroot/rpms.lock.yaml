@@ -1,0 +1,57 @@
+---
+lockfileVersion: 1
+lockfileVendor: redhat
+arches:
+- arch: x86_64
+  packages:
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/c/cargo-1.92.0-1.el9.x86_64.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 9100626
+    checksum: sha256:3c4afc2cb56734d01aaaaa8d0c317688f6fe143ad239079342f4fe9b631ded0f
+    name: cargo
+    evr: 1.92.0-1.el9
+    sourcerpm: rust-1.92.0-1.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/o/oniguruma-6.9.6-1.el9.5.x86_64.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 226331
+    checksum: sha256:6c884cc2216e5b4699ebd8cde27b39e99532520b367f645ed6cc660d081916dc
+    name: oniguruma
+    evr: 6.9.6-1.el9.5
+    sourcerpm: oniguruma-6.9.6-1.el9.5.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/r/rust-1.92.0-1.el9.x86_64.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 31511504
+    checksum: sha256:fbc70b11f38999206d70a104789d1f7f21ca9f9090c7a73d6db337bff4f5205b
+    name: rust
+    evr: 1.92.0-1.el9
+    sourcerpm: rust-1.92.0-1.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/r/rust-std-static-1.92.0-1.el9.x86_64.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 42991765
+    checksum: sha256:d286394aaa75a796a06db130d2a980bee8e6ab4cbaa38a3b84e12379fbae4671
+    name: rust-std-static
+    evr: 1.92.0-1.el9
+    sourcerpm: rust-1.92.0-1.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/r/rust-toolset-1.92.0-1.el9.noarch.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 20406
+    checksum: sha256:7c8e4a695621948712693b395c7f099c443e26fea634924760334fe3f627cc5c
+    name: rust-toolset
+    evr: 1.92.0-1.el9
+    sourcerpm: rust-1.92.0-1.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/r/rustfmt-1.92.0-1.el9.x86_64.rpm
+    repoid: ubi-9-appstream-rpms
+    size: 2068695
+    checksum: sha256:ca55f1c6162b3dca6621c049c524366dc8a361ece26910d82f87db9c0ad9a2e3
+    name: rustfmt
+    evr: 1.92.0-1.el9
+    sourcerpm: rust-1.92.0-1.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/j/jq-1.6-19.el9_8.2.x86_64.rpm
+    repoid: ubi-9-baseos-rpms
+    size: 197453
+    checksum: sha256:9793a39a4746a09ba89c3d9ccc70150ac6c878286deee26d7e3aabede4666417
+    name: jq
+    evr: 1.6-19.el9_8.2
+    sourcerpm: jq-1.6-19.el9_8.2.src.rpm
+  source: []
+  module_metadata: []
