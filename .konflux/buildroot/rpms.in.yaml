@@ -1,0 +1,21 @@
+# Input for rpm-lockfile-prototype -> .konflux/buildroot/rpms.lock.yaml, consumed by
+# cachi2 rpm prefetch for Containerfile.buildroot (base: ubi9/go-toolset).
+# Resolve against the go-toolset base so rust-toolset & friends are found:
+#   rpm-lockfile-prototype --image registry.access.redhat.com/ubi9/go-toolset:latest \
+#     --outfile .konflux/buildroot/rpms.lock.yaml .konflux/buildroot/rpms.in.yaml
+contentOrigin:
+  # When upgrading these repos, use repoids from
+  # https://github.com/release-engineering/rhtap-ec-policy/blob/main/data/known_rpm_repositories.yml
+  # which may differ from the ones present in your UBI image
+  repos:
+    - repoid: ubi-9-for-x86_64-baseos-rpms
+      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os
+    - repoid: ubi-9-for-x86_64-appstream-rpms
+      baseurl: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os
+arches:
+  - x86_64
+packages:
+  - rust-toolset
+  - rustfmt
+  - jq
+  - perl-core
