@@ -8,7 +8,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" && (".tekton/attestation-key-register-push.yaml".pathChanged() || ".tekton/attestation-key-register-pull-request.yaml".pathChanged() || "Containerfile.attestation-key-register".pathChanged() || "operator".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" && (".tekton/attestation-key-register-push.yaml".pathChanged() || ".tekton/attestation-key-register-pull-request.yaml".pathChanged() || "Containerfile".pathChanged() || "operator".pathChanged())
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: confidential-cluster-operator
@@ -27,7 +27,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: dockerfile
-    value: Containerfile.attestation-key-register
+    value: Containerfile
   - name: build-args
     value:
     - build_type=release
@@ -204,6 +204,8 @@ spec:
         value: $(params.output-image)
       - name: DOCKERFILE
         value: $(params.dockerfile)
+      - name: TARGET_STAGE
+        value: attestation-key-register
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC
@@ -422,6 +424,8 @@ spec:
         value: $(params.output-image)
       - name: DOCKERFILE
         value: $(params.dockerfile)
+      - name: TARGET_STAGE
+        value: attestation-key-register
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC
