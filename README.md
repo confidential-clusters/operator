@@ -45,23 +45,27 @@ Build and push operator and operand images:
 
 ```bash
 ${CONTAINER_CLI} build --build-arg build_type=release \
+  --target operator \
   -t ${REGISTRY}/confidential-cluster-operator:${TAG} \
-  -f Containerfile.operator .
+  -f Containerfile .
 ${CONTAINER_CLI} push ${REGISTRY}/confidential-cluster-operator:${TAG}
 
 ${CONTAINER_CLI} build --build-arg build_type=release \
+  --target compute-pcrs \
   -t ${REGISTRY}/compute-pcrs:${TAG} \
-  -f Containerfile.compute-pcrs .
+  -f Containerfile .
 ${CONTAINER_CLI} push ${REGISTRY}/compute-pcrs:${TAG}
 
 ${CONTAINER_CLI} build --build-arg build_type=release \
+  --target register-server \
   -t ${REGISTRY}/registration-server:${TAG} \
-  -f Containerfile.registration-server .
+  -f Containerfile .
 ${CONTAINER_CLI} push ${REGISTRY}/registration-server:${TAG}
 
 ${CONTAINER_CLI} build --build-arg build_type=release \
+  --target attestation-key-register \
   -t ${REGISTRY}/attestation-key-register:${TAG} \
-  -f Containerfile.attestation-key-register .
+  -f Containerfile .
 ${CONTAINER_CLI} push ${REGISTRY}/attestation-key-register:${TAG}
 ```
 
@@ -126,10 +130,7 @@ make -C operator cluster-down
 ```
 confidential-cluster-operator/
 ├── operator/                            # Git submodule (upstream)
-├── Containerfile.operator               # Operator image
-├── Containerfile.compute-pcrs           # Compute-pcrs operand
-├── Containerfile.registration-server    # Registration-server operand
-├── Containerfile.attestation-key-register  # Attestation-key-register operand
+├── Containerfile                        # Operator + related images (multi-stage, select with --target)
 ├── Containerfile.bundle                 # OLM bundle
 ├── bundle/
 │   └── customize-bundle.sh              # Applies downstream branding to OLM bundle
