@@ -12,7 +12,7 @@ set -euo pipefail
 export OPERATOR_IMAGE="registry.redhat.io/confidential-clusters-beta/confidential-cluster-rhel9-operator@sha256:d5f2483202c8acccc4f86f97ebc1089dc8499b95611eb8b4c283e4cca448f11b"
 export COMPUTE_PCRS_IMAGE="registry.redhat.io/confidential-clusters-beta/compute-pcrs-rhel9@sha256:7056c8887b7cb6fbfdaef0394a5cd64e23a7ee7afa36ba1038455de4de96fd9a"
 export REG_SERVER_IMAGE="registry.redhat.io/confidential-clusters-beta/registration-server-rhel9@sha256:ccc8717ad459779a12c07145890d1821d56f403a35ffdfe32ccfd6195436b4cf"
-export ATTESTATION_KEY_REGISTER_IMAGE="registry.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:cd7ff8aa957cede1839ff2a405158d1b5f06bb5f09ec368920af3994dccca713"
+export ATTESTATION_KEY_REGISTER_IMAGE="registry.redhat.io/confidential-clusters-beta/attestation-key-register-rhel9@sha256:957fec2500753d70c8cbedf340c43806ab3abf0b5f851c7e1a5950a786e17794"
 export TRUSTEE_IMAGE="registry.redhat.io/build-of-trustee/trustee-rhel9@sha256:badc4d357d15c495d695fd84736ebdffdad4b9fb3ec89c40c9b47a1c2b3a9d41"
 
 # These are passed in from the Containerfile build args
