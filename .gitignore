@@ -1,0 +1,4 @@
+target/
+tests/config/crd/
+tests/lib/src/kopium/
+tests/target/
