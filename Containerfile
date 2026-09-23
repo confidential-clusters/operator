@@ -7,6 +7,7 @@
 
 ARG build_type=release
 ARG build_target=operator
+ARG deployment_base=registry.access.redhat.com/ubi9/ubi-minimal
 
 # Unified builder stage, compiles all binaries in a single cargo invocation.
 FROM registry.redhat.io/confidential-clusters-beta/buildroot-rhel9@sha256:84c4e5a2bb4f761d77dee1bc51894c1d43449b4f3d4b54f2fb784f90d3bc821f AS builder
@@ -72,7 +73,7 @@ RUN profile_dir="debug" && \
     cp /build/target/${profile_dir}/attestation-key-register /output/
 
 # Distribution stages
-FROM registry.access.redhat.com/ubi9/ubi-minimal AS operator
+FROM ${deployment_base} AS operator
 COPY --from=builder /output/operator /usr/bin
 
 # Red Hat labels
@@ -90,7 +91,7 @@ LABEL vendor="Red Hat, Inc." \
 
 ENTRYPOINT ["/usr/bin/operator"]
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal AS attestation-key-register
+FROM ${deployment_base} AS attestation-key-register
 COPY --from=builder /output/attestation-key-register /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
@@ -108,7 +109,7 @@ LABEL vendor="Red Hat, Inc." \
 EXPOSE 8001
 ENTRYPOINT ["/usr/bin/attestation-key-register"]
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal AS register-server
+FROM ${deployment_base} AS register-server
 COPY --from=builder /output/register-server /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
@@ -136,7 +137,7 @@ RUN mkdir -p /output/reference-values && \
     mv /build/reference-values/efivars /output/reference-values/ && \
     mv /build/reference-values/mok-variables /output/reference-values/
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal AS compute-pcrs
+FROM ${deployment_base} AS compute-pcrs
 COPY --from=compute-pcrs-data /output/compute-pcrs /usr/bin
 COPY --from=compute-pcrs-data /output/reference-values /reference-values
 

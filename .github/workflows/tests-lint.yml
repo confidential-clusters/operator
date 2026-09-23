@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: Jakob Naucke <jnaucke@redhat.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Inspired by https://github.com/coreos/repo-templates
+
+name: "Lint tests"
+on:
+  pull_request:
+    branches:
+      - "main"
+permissions:
+  contents: "read"
+
+# Don't waste job slots on superseded code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  # Pinned toolchain for linting
+  ACTIONS_LINTS_TOOLCHAIN: 1.92.0
+
+defaults:
+  run:
+    working-directory: ./tests
+
+jobs:
+  linting:
+    name: "Lints"
+    runs-on: "ubuntu-24.04"
+    container: "ghcr.io/trusted-execution-clusters/buildroot:fedora"
+    steps:
+      - name: "Check out repository"
+        uses: actions/checkout@v7
+      - name: "Install Rust toolchain"
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.ACTIONS_LINTS_TOOLCHAIN }}
+          components: rustfmt, clippy
+      - name: "Install Go toolchain"
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: tests/go.mod
+      - name: "Cache build artifacts"
+        uses: Swatinem/rust-cache@v2
+      - name: "Build CRDs"
+        run: make crds-rs-downstream
+      - name: "cargo fmt (check)"
+        run: cargo fmt -- --check -l
+      - name: "cargo clippy (warnings)"
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: "gofmt (check)"
+        run: if [ -n "$(gofmt -l .)" ]; then exit 1; fi
+      - name: "go vet"
+        run: go vet ./...
+      - name: "Ensure clean Cargo.lock"
+        run: sh -c '[ -z "$(git diff)" ]'
