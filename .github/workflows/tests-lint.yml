@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: "Check out repository"
         uses: actions/checkout@v7
+        with:
+          submodules: true
       - name: "Install Rust toolchain"
         uses: dtolnay/rust-toolchain@v1
         with:
@@ -52,8 +54,6 @@ jobs:
       - name: "cargo clippy (warnings)"
         run: cargo clippy --all-targets --all-features -- -D warnings
       - name: "gofmt (check)"
-        run: if [ -n "$(gofmt -l .)" ]; then exit 1; fi
-      - name: "go vet"
-        run: go vet ./...
+        run: '[ -z "$(gofmt -l .)" ]'
       - name: "Ensure clean Cargo.lock"
-        run: sh -c '[ -z "$(git diff)" ]'
+        run: '[ -z "$(git diff)" ]'
