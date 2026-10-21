@@ -9,6 +9,10 @@
 # Start with UBI9 Go Toolset (provides Go 1.26+)
 FROM registry.access.redhat.com/ubi9/go-toolset:latest
 
+# Match the destination repository in the Konflux release mapping.
+LABEL name="confidential-clusters-beta/buildroot-rhel9"
+LABEL cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9"
+
 # Switch to root for package installation
 USER 0
 

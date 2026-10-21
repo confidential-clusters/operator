@@ -5,3 +5,9 @@
 [submodule "drift-detection"]
 	path = drift-detection
 	url = https://github.com/arewm/drift-detection
+[submodule "reference-values"]
+	path = reference-values
+	url = https://github.com/trusted-execution-clusters/reference-values
+[submodule "tools/kopium"]
+	path = tools/kopium
+	url = https://github.com/kube-rs/kopium.git

@@ -9,6 +9,8 @@ ARG build_type=release
 ARG build_target=operator
 ARG deployment_base=registry.access.redhat.com/ubi9/ubi-minimal
 
+FROM quay.io/konflux-ci/operator-sdk-builder:latest AS operator-sdk
+
 # Unified builder stage, compiles all binaries in a single cargo invocation.
 FROM registry.redhat.io/confidential-clusters-beta/buildroot-rhel9@sha256:84c4e5a2bb4f761d77dee1bc51894c1d43449b4f3d4b54f2fb784f90d3bc821f AS builder
 LABEL project=trusted-cluster-operator
@@ -24,6 +26,12 @@ RUN /detector.sh ./Containerfile /drift-cache/Containerfile
 
 WORKDIR /build
 COPY operator/Makefile operator/Cargo.toml operator/Cargo.lock operator/go.mod operator/go.sum ./
+
+# cachi2/hermeto injects the vendored-sources cargo config at operator/.cargo during the
+# prefetch step. The build flattens operator/ into /build, so copy the config here too;
+# without it, offline (hermetic) `cargo build`/`cargo install` can't resolve the vendored
+# crates (incl. the git deps) and the build fails.
+COPY operator/.cargo .cargo
 
 COPY operator/api api
 COPY operator/lib lib
@@ -42,6 +50,18 @@ RUN sed -i 's/members = .*/members = ["lib", "operator", "compute-pcrs", "regist
     sed -i '/\[dev-dependencies\]/,$d' operator/Cargo.toml && \
     sed -i '/\[dev-dependencies\]/,$d' register-server/Cargo.toml && \
     sed -i '/trusted-cluster-operator-test-utils/d' lib/Cargo.toml
+
+# Copy controller-gen from the Konflux operator-sdk builder image. The upstream
+# Makefile expects the v0.20.1 filename from go.mod.
+RUN mkdir -p /build/bin
+COPY --from=operator-sdk /bin/controller-gen /build/bin/controller-gen-v0.20.1
+
+# Build pinned kopium source using dependencies fetched by Hermeto. Keep kopium's
+# injected .cargo/config.toml with its sources so Cargo uses the vendored crates.
+COPY tools/kopium /build-tools/kopium
+RUN cd /build-tools/kopium && \
+    cargo build --release --locked --offline && \
+    cp target/release/kopium /build/bin/kopium-0.23.0
 
 RUN make crds-rs
 
@@ -78,7 +98,8 @@ COPY --from=builder /output/operator /usr/bin
 
 # Red Hat labels
 LABEL vendor="Red Hat, Inc." \
-      name="confidential-clusters-beta/confidential-cluster-operator" \
+      name="confidential-clusters-beta/confidential-cluster-rhel9-operator" \
+      cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
       version="0.2.1" \
       release="1" \
       description="confidential cluster operator - manages confidential computing resources on OpenShift" \
@@ -95,7 +116,8 @@ FROM ${deployment_base} AS attestation-key-register
 COPY --from=builder /output/attestation-key-register /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
-      name="confidential-clusters-beta/attestation-key-register" \
+      name="confidential-clusters-beta/attestation-key-register-rhel9" \
+      cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
       version="0.2.1" \
       release="1" \
       description="Attestation key registration tool for confidential cluster operator" \
@@ -113,7 +135,8 @@ FROM ${deployment_base} AS register-server
 COPY --from=builder /output/register-server /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
-      name="confidential-clusters-beta/registration-server" \
+      name="confidential-clusters-beta/registration-server-rhel9" \
+      cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
       version="0.2.1" \
       release="1" \
       description="Registration server for confidential cluster operator" \
@@ -129,10 +152,10 @@ ENTRYPOINT ["/usr/bin/register-server"]
 
 
 FROM builder AS compute-pcrs-data
-# Pin reference-values to specific commit for reproducible builds
-ARG REFERENCE_VALUES_COMMIT=e296603ca106908258ac59326b001b602ed0f037
-RUN git clone https://github.com/trusted-execution-clusters/reference-values && \
-    cd reference-values && git checkout ${REFERENCE_VALUES_COMMIT} && cd ..
+# reference-values is vendored as a git submodule (pinned commit), fetched by the Konflux
+# git-clone task and copied from the build context. This replaces an in-build `git clone`,
+# which cannot run under hermetic (network-isolated) builds.
+COPY reference-values reference-values
 RUN mkdir -p /output/reference-values && \
     mv /build/reference-values/efivars /output/reference-values/ && \
     mv /build/reference-values/mok-variables /output/reference-values/
@@ -142,7 +165,8 @@ COPY --from=compute-pcrs-data /output/compute-pcrs /usr/bin
 COPY --from=compute-pcrs-data /output/reference-values /reference-values
 
 LABEL vendor="Red Hat, Inc." \
-      name="confidential-clusters-beta/compute-pcrs" \
+      name="confidential-clusters-beta/compute-pcrs-rhel9" \
+      cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
       version="0.2.1" \
       release="1" \
       description="PCR computation tool for confidential cluster operator" \
