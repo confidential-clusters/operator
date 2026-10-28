@@ -10,5 +10,20 @@
   "cloneSubmodules": true,
   "dockerfile": {
     "enabled": false
-  }
+  },
+  "packageRules": [
+    {
+      "description": "Only propose Go dependency updates compatible with this repo's go.mod Go version",
+      "matchManagers": ["gomod"],
+      "constraintsFiltering": "strict"
+    },
+    {
+      "description": "Only propose Cargo dependency updates compatible with Rust 1.92",
+      "matchManagers": ["cargo"],
+      "constraintsFiltering": "strict",
+      "constraints": {
+        "rust": "1.92"
+      }
+    }
+  ]
 }

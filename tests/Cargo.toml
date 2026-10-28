@@ -8,7 +8,7 @@ members = ["lib"]
 [workspace.package]
 version = "0.2.1"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.92"
 
 [workspace.dependencies]
 k8s-openapi = "0.28.0"
