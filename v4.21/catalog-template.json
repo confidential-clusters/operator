@@ -4,16 +4,15 @@
         {
             "schema": "olm.package",
             "name": "confidential-cluster-operator",
-            "defaultChannel": "dev-preview"
+            "defaultChannel": "stable"
         },
         {
             "schema": "olm.channel",
-            "name": "dev-preview",
+            "name": "stable",
             "package": "confidential-cluster-operator",
             "entries": [
                 {
-                    "name": "confidential-cluster-operator.v0.2.1",
-                    "skipRange": "<0.2.1"
+                    "name": "confidential-cluster-operator.v0.2.3"
                 }
             ]
         },
