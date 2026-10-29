@@ -1,0 +1,24 @@
+{
+    "schema": "olm.template.basic",
+    "entries": [
+        {
+            "schema": "olm.package",
+            "name": "confidential-cluster-operator",
+            "defaultChannel": "stable"
+        },
+        {
+            "schema": "olm.channel",
+            "name": "stable",
+            "package": "confidential-cluster-operator",
+            "entries": [
+                {
+                    "name": "confidential-cluster-operator.v0.2.3"
+                }
+            ]
+        },
+        {
+            "schema": "olm.bundle",
+            "image": "registry.redhat.io/confidential-clusters-beta/confidential-cluster-operator-bundle@sha256:8bfd84705e0aa195552dcd72b0bdda4b097f487f9beaa86343c701e626cd7c8f"
+        }
+    ]
+}
