@@ -8,7 +8,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" && (".tekton/confidential-cluster-operator-fbc-push.yaml".pathChanged() || ".tekton/confidential-cluster-operator-fbc-pull-request.yaml".pathChanged() || "v4.21/***".pathChanged() || "operator/bundle/***".pathChanged())
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" && (".tekton/confidential-cluster-operator-fbc-4-21-push.yaml".pathChanged() || ".tekton/confidential-cluster-operator-fbc-4-21-pull-request.yaml".pathChanged() || "v4.21/***".pathChanged() || "operator/bundle/***".pathChanged())
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: confidential-cluster-operator-fbc
