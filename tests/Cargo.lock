@@ -2834,11 +2834,14 @@ version = "0.2.3"
 dependencies = [
  "anyhow",
  "compute-pcrs-lib",
+ "hex",
  "k8s-openapi",
  "kube",
  "log",
+ "openssl",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -2855,6 +2858,7 @@ dependencies = [
  "env_logger",
  "fs_extra",
  "glob",
+ "hex",
  "http",
  "ignition-config",
  "k8s-openapi",
