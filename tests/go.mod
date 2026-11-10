@@ -6,6 +6,8 @@ module io/confidentialcluster/tests
 
 go 1.25.0
 
+// Renovate is set to ignore digest bumps because those can induce unwanted
+// Go bumps. Bump, including indirect dependencies, when bumping Go.
 require github.com/openshift/api v0.0.0-20260710200753-d8a1748da7dc
 
 require (

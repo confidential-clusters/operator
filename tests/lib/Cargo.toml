@@ -9,6 +9,8 @@ edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+# Transitive via kube-client, pinned because of Rust 1.95-requiring deps. Keep until bumping Rust.
+hyper-openssl = "=0.10.2"
 k8s-openapi.workspace = true
 kube.workspace = true
 serde.workspace = true

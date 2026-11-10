@@ -24,6 +24,12 @@
       "constraints": {
         "rust": "1.92"
       }
+    },
+    {
+      "description": "constraintsFiltering cannot see digests, so updates to untagged Go modules can require a newer Go than go.mod declares, regardless of whether the module is direct or indirect",
+      "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
     }
   ]
 }
