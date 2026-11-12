@@ -67,14 +67,14 @@ LABEL operators.operatorframework.io.bundle.mediatype.v1="registry+v1"
 LABEL operators.operatorframework.io.bundle.manifests.v1="manifests/"
 LABEL operators.operatorframework.io.bundle.metadata.v1="metadata/"
 LABEL operators.operatorframework.io.bundle.package.v1="confidential-cluster-operator"
-LABEL operators.operatorframework.io.bundle.channels.v1="alpha"
-LABEL operators.operatorframework.io.bundle.channel.default.v1="alpha"
+LABEL operators.operatorframework.io.bundle.channels.v1="stable"
+LABEL operators.operatorframework.io.bundle.channel.default.v1="stable"
 
 # Red Hat labels
 LABEL vendor="Red Hat, Inc." \
       name="confidential-clusters-beta/confidential-cluster-operator-bundle" \
       cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
-      version="0.2.1" \
+      version="0.2.3" \
       release="1" \
       description="OLM bundle for confidential cluster operator" \
       io.k8s.description="Operator Lifecycle Manager bundle with CSV and CRDs for confidential cluster operator" \
