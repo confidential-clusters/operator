@@ -30,7 +30,7 @@ generate-downstream: $(CONTROLLER_GEN) $(OPENSHIFT_API_LOCAL)
 	$(call controller-gen,./$(OPENSHIFT_API_LOCAL)/machine/v1beta1,*{machines$(comma)azure*specs}*)
 
 crds-rs-downstream: generate-downstream $(KOPIUM) $(CRD_RS_PATH)
-	cd $(MAKEFILE_DIR) && $(MAKE) crds-rs
+	cd $(MAKEFILE_DIR) && $(MAKE) generate-openshift && $(MAKE) crds-rs
 	$(MAKE) $(shell find $(CRD_YAML_PATH) -path $(OPENSHIFT_API_LOCAL) -prune -o -type f -print \
 		| sed -E 's|$(CRD_YAML_PATH)/.*_(.*)\.yaml|$(CRD_RS_PATH)/\1.rs|')
 

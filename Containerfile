@@ -64,11 +64,11 @@ RUN cd /build-tools/kopium && \
     cargo build --release --locked --offline && \
     cp target/release/kopium /build/bin/kopium-0.23.0
 
-RUN make crds-rs
+RUN make crds-rs-all-features
 
 # In debug builds, pre-build dependencies to avoid full rebuild on source changes.
 RUN if [ "$build_type" = debug ]; then \
-      cargo build -p operator -p compute-pcrs -p register-server -p attestation-key-register; \
+      cargo build --all-features -p operator -p compute-pcrs -p register-server -p attestation-key-register; \
     fi
 
 COPY operator/operator/src operator/src
@@ -79,6 +79,7 @@ COPY operator/attestation-key-register/src attestation-key-register/src
 RUN release_flag="" && \
     if [ "$build_type" = release ]; then release_flag="--release"; fi && \
     cargo build \
+      --all-features \
       -p operator \
       -p compute-pcrs \
       -p register-server \
