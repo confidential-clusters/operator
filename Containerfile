@@ -8,6 +8,7 @@
 ARG build_type=release
 ARG build_target=operator
 ARG deployment_base=registry.access.redhat.com/ubi9/ubi-minimal
+ARG VERSION=0.2.3
 
 FROM quay.io/konflux-ci/operator-sdk-builder:latest AS operator-sdk
 
@@ -95,13 +96,14 @@ RUN profile_dir="debug" && \
 
 # Distribution stages
 FROM ${deployment_base} AS operator
+ARG VERSION
 COPY --from=builder /output/operator /usr/bin
 
 # Red Hat labels
 LABEL vendor="Red Hat, Inc." \
       name="confidential-clusters-beta/confidential-cluster-rhel9-operator" \
       cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
-      version="0.2.3" \
+      version="${VERSION}" \
       release="1" \
       description="confidential cluster operator - manages confidential computing resources on OpenShift" \
       io.k8s.description="Kubernetes operator for managing confidential clusters with trusted execution environments" \
@@ -114,12 +116,13 @@ LABEL vendor="Red Hat, Inc." \
 ENTRYPOINT ["/usr/bin/operator"]
 
 FROM ${deployment_base} AS attestation-key-register
+ARG VERSION
 COPY --from=builder /output/attestation-key-register /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
       name="confidential-clusters-beta/attestation-key-register-rhel9" \
       cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
-      version="0.2.3" \
+      version="${VERSION}" \
       release="1" \
       description="Attestation key registration tool for confidential cluster operator" \
       io.k8s.description="Service for registering and managing attestation keys for confidential workloads" \
@@ -133,12 +136,13 @@ EXPOSE 8001
 ENTRYPOINT ["/usr/bin/attestation-key-register"]
 
 FROM ${deployment_base} AS register-server
+ARG VERSION
 COPY --from=builder /output/register-server /usr/bin
 
 LABEL vendor="Red Hat, Inc." \
       name="confidential-clusters-beta/registration-server-rhel9" \
       cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
-      version="0.2.3" \
+      version="${VERSION}" \
       release="1" \
       description="Registration server for confidential cluster operator" \
       io.k8s.description="HTTP server for registering confidential workloads and managing attestation" \
@@ -162,13 +166,14 @@ RUN mkdir -p /output/reference-values && \
     mv /build/reference-values/mok-variables /output/reference-values/
 
 FROM ${deployment_base} AS compute-pcrs
+ARG VERSION
 COPY --from=compute-pcrs-data /output/compute-pcrs /usr/bin
 COPY --from=compute-pcrs-data /output/reference-values /reference-values
 
 LABEL vendor="Red Hat, Inc." \
       name="confidential-clusters-beta/compute-pcrs-rhel9" \
       cpe="cpe:/a:redhat:confidential_cluster_operator:4.21::el9" \
-      version="0.2.3" \
+      version="${VERSION}" \
       release="1" \
       description="PCR computation tool for confidential cluster operator" \
       io.k8s.description="Tool for computing Platform Configuration Register values for confidential VMs" \
