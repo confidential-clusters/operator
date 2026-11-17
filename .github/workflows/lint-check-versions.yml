@@ -1,0 +1,46 @@
+name: "Check source versions"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - operator
+      - Containerfile
+      - Containerfile.bundle
+      - .tekton/confidential-cluster-operator-bundle-push.yaml
+      - .tekton/confidential-cluster-operator-bundle-pull-request.yaml
+      - tests/lint_check_versions.py
+      - .github/workflows/lint-check-versions.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - operator
+      - Containerfile
+      - Containerfile.bundle
+      - .tekton/confidential-cluster-operator-bundle-push.yaml
+      - .tekton/confidential-cluster-operator-bundle-pull-request.yaml
+      - tests/lint_check_versions.py
+      - .github/workflows/lint-check-versions.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-versions:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository and operator
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-yaml
+      - name: Check source versions
+        run: /usr/bin/python3 ./tests/lint_check_versions.py

@@ -30,7 +30,7 @@ spec:
     value: Containerfile.bundle
   - name: build-args
     value:
-    - TAG=0.2.1
+    - TAG=0.2.3
   - name: hermetic
     value: "true"
   - name: prefetch-input
