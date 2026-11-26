@@ -1,0 +1,40 @@
+name: Lint Kopium
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/kopium
+  pull_request:
+    branches: [main]
+    paths:
+      - tools/kopium
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: tools/kopium
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Check out pinned Kopium source
+        working-directory: .
+        run: git submodule update --init -- tools/kopium
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt, clippy
+      - name: Check formatting
+        run: find . -type f -iname '*.rs' -exec rustfmt +nightly --edition 2018 --check {} +
+      - name: Run Clippy
+        run: cargo clippy --locked --all-features -- -D warnings
